@@ -1,0 +1,332 @@
+about:
+  date: November 28, 2024 23:54:29
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  ActivitySchedule:
+    attributes:
+    - label: ' activity_name*'
+      name: activity_name
+      search: true
+      sort: true
+    - name: dog_id
+    - name: activity_date
+      type: DATE
+    - name: activity_duration
+    - name: id
+    description: Table to schedule activities for dogs.
+    info_list: Table to schedule activities for dogs.
+    tab_groups:
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    type: ActivitySchedule
+    user_key: activity_name
+  Booking:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dog_id
+    - name: drop_off_date
+      type: DATETIME
+    - name: pick_up_date
+      type: DATETIME
+    - name: total_days
+    description: Table to handle dog daycare bookings
+    info_list: Table to handle dog daycare bookings
+    tab_groups:
+    - direction: tomany
+      fks:
+      - booking_id
+      name: BookingServiceList
+      resource: BookingService
+    - direction: tomany
+      fks:
+      - booking_id
+      name: InvoiceList
+      resource: Invoice
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    type: Booking
+    user_key: id
+  BookingService:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: booking_id
+    - name: service_id
+    description: Services assigned to a booking.
+    info_list: Services assigned to a booking.
+    tab_groups:
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    - direction: toone
+      fks:
+      - service_id
+      name: service
+      resource: FacilityService
+    type: BookingService
+    user_key: id
+  Caregiver:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      search: true
+      sort: true
+    - name: last_name
+    - name: phone_number
+    - name: hire_date
+      type: DATE
+    - name: id
+    description: Table of caregivers working at the daycare center
+    info_list: Table of caregivers working at the daycare center
+    tab_groups:
+    - direction: tomany
+      fks:
+      - caregiver_id
+      name: CaresessionList
+      resource: Caresession
+    type: Caregiver
+    user_key: first_name
+  Caresession:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: caregiver_id
+    - name: dog_id
+    - name: session_date
+      type: DATE
+    - name: notes
+    description: Table recording caresession provided to dogs.
+    info_list: Table recording caresession provided to dogs.
+    tab_groups:
+    - direction: toone
+      fks:
+      - caregiver_id
+      name: caregiver
+      resource: Caregiver
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    type: Caresession
+    user_key: id
+  DietaryRestriction:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dog_id
+    - name: restriction_details
+    description: Dietary restrictions for dogs
+    info_list: Dietary restrictions for dogs
+    tab_groups:
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    type: DietaryRestriction
+    user_key: id
+  Dog:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: owner_id
+    - name: birthdate
+      type: DATE
+    - name: id
+    - name: breed
+    description: Table of dogs admitted to the daycare center
+    info_list: Table of dogs admitted to the daycare center
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dog_id
+      name: ActivityScheduleList
+      resource: ActivitySchedule
+    - direction: tomany
+      fks:
+      - dog_id
+      name: BookingList
+      resource: Booking
+    - direction: tomany
+      fks:
+      - dog_id
+      name: CaresessionList
+      resource: Caresession
+    - direction: tomany
+      fks:
+      - dog_id
+      name: DietaryRestrictionList
+      resource: DietaryRestriction
+    - direction: tomany
+      fks:
+      - dog_id
+      name: SpecialCareneedList
+      resource: SpecialCareneed
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    type: Dog
+    user_key: name
+  FacilityService:
+    attributes:
+    - label: ' service_name*'
+      name: service_name
+      search: true
+      sort: true
+    - name: service_cost
+    - name: id
+    description: Services provided by the daycare facility.
+    info_list: Services provided by the daycare facility.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_id
+      name: BookingServiceList
+      resource: BookingService
+    type: FacilityService
+    user_key: service_name
+  Invoice:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: booking_id
+    - name: total_amount
+    - name: status
+    - name: date_issued
+      type: DATE
+    description: Invoices for bookings, sessions, and services.
+    info_list: Invoices for bookings, sessions, and services.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - invoice_id
+      name: PaymentList
+      resource: Payment
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    type: Invoice
+    user_key: id
+  Owner:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      search: true
+      sort: true
+    - name: last_name
+    - name: phone_number
+    - name: email
+    - name: id
+    description: Table of dog owners
+    info_list: Table of dog owners
+    tab_groups:
+    - direction: tomany
+      fks:
+      - owner_id
+      name: DogList
+      resource: Dog
+    type: Owner
+    user_key: first_name
+  Payment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: invoice_id
+    - name: payment_date
+      type: DATE
+    - name: amount
+    description: Payment records for invoices.
+    info_list: Payment records for invoices.
+    tab_groups:
+    - direction: toone
+      fks:
+      - invoice_id
+      name: invoice
+      resource: Invoice
+    type: Payment
+    user_key: id
+  SpecialCareneed:
+    attributes:
+    - label: ' condition_name*'
+      name: condition_name
+      search: true
+      sort: true
+    - name: dog_id
+    - name: care_description
+    - name: id
+    description: Special care needs of dogs
+    info_list: Special care needs of dogs
+    tab_groups:
+    - direction: toone
+      fks:
+      - dog_id
+      name: dog
+      resource: Dog
+    type: SpecialCareneed
+    user_key: condition_name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

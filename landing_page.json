@@ -1,0 +1,90 @@
+{
+    "name": "Paws & Wiggles Corgi Care",
+    "logo": {
+        "Type": "Logo",
+        "name": "Paws & Wiggles Logo",
+        "description": "Logo featuring a playful Welsh Corgi silhouette with the text 'Paws & Wiggles' in cheerful font."
+    },
+    "sections": [
+        {
+            "title": "Welcome to Paws & Wiggles",
+            "subtitle": "A Corgi's Home Away From Home",
+            "name": "hero-section",
+            "label": "Home",
+            "content": "**Experience Top-Notch Daycare for Your Furry Friend**  \nAt Paws & Wiggles, we understand the unique needs of your Welsh Corgi. Our dedicated team ensures a day full of fun, adventure, and plenty of tail wags.",
+            "order": 1,
+            "Type": "Hero",
+            "images": [
+                {
+                    "Type": "Hero",
+                    "name": "Happy Corgi at Play",
+                    "description": "A joyful Corgi running in an open field."
+                }
+            ]
+        },
+        {
+            "title": "About Us",
+            "subtitle": "Our Story",
+            "name": "about-section",
+            "label": "About",
+            "content": "**Caring for Corgis is Our Passion!**  \nFounded by dedicated dog lovers, Paws & Wiggles is more than just a daycare. We strive to create a safe, fun, and nurturing environment where your Corgi feels loved and secure. Our staff are trained in pet first aid and are experienced in handling the playful nature of Corgis.",
+            "order": 2,
+            "Type": "About",
+            "images": [
+                {
+                    "Type": "Background",
+                    "name": "Corgi Group Play",
+                    "description": "A group of Corgis playing together at the daycare."
+                }
+            ]
+        },
+        {
+            "title": "Our Services",
+            "subtitle": "What We Offer",
+            "name": "services-section",
+            "label": "Services",
+            "content": "- **Full-Day Daycare:** Drop off your Corgi for a day filled with supervised play and socialization.  \n- **Half-Day Daycare:** Perfect for those who need a shorter stay.  \n- **Special Corgi Activities:** Corgi-themed agility courses and group activities designed to engage your pet.  \n- **Overnight Boarding:** Peace of mind for when you are away overnight, knowing your Corgi is in good hands.",
+            "order": 3,
+            "Type": "Services",
+            "images": [
+                {
+                    "Type": "ItemListing",
+                    "name": "Corgi Agility Course",
+                    "description": "Corgis enjoying an agility course designed for their build."
+                }
+            ]
+        },
+        {
+            "title": "Meet Our Team",
+            "subtitle": "Passionate Pet Carers",
+            "name": "team-section",
+            "label": "Team",
+            "content": "Our team consists of dedicated pet lovers who treat every Corgi as their own. With extensive training in canine care, our experts ensure each day is a happy day for your pet.",
+            "order": 4,
+            "Type": "Team",
+            "images": [
+                {
+                    "Type": "Headshot",
+                    "name": "Team Leader Jane Doe",
+                    "description": "Headshot of Jane Doe, the lead care specialist."
+                }
+            ]
+        },
+        {
+            "title": "Get in Touch",
+            "subtitle": "Contact Us",
+            "name": "contact-section",
+            "label": "Contact",
+            "content": "**Location:** 123 Barker Lane, Caninetown  \n**Phone:** (123) 456-7890  \n**Email:** info@pawsandwiggles.com  \nFeel free to reach out to us for any inquiries or to book a tour of our facilities!",
+            "order": 5,
+            "Type": "Contact",
+            "images": [
+                {
+                    "Type": "Map",
+                    "name": "Location Map",
+                    "description": "Map showing the location of Paws & Wiggles."
+                }
+            ]
+        }
+    ]
+}

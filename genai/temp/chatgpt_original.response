@@ -1,0 +1,126 @@
+{
+    "models": [
+        {
+            "classname": "Dog",
+            "code": "class Dog(Base):\n    \"\"\"description: Table of dogs admitted to the daycare center\"\"\"\n    __tablename__ = 'dog'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    breed = Column(String)\n    birthdate = Column(Date)\n    owner_id = Column(Integer, ForeignKey('owner.id'))",
+            "sqlite_create": "CREATE TABLE dog (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    breed TEXT,\n    birthdate DATE,\n    owner_id INTEGER REFERENCES owner(id)\n);",
+            "description": "Table of dogs admitted to the daycare center.",
+            "name": "Dog"
+        },
+        {
+            "classname": "Owner",
+            "code": "class Owner(Base):\n    \"\"\"description: Table of dog owners\"\"\"\n    __tablename__ = 'owner'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    first_name = Column(String)\n    last_name = Column(String)\n    phone_number = Column(String)\n    email = Column(String)",
+            "sqlite_create": "CREATE TABLE owner (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    first_name TEXT,\n    last_name TEXT,\n    phone_number TEXT,\n    email TEXT\n);",
+            "description": "Table of dog owners.",
+            "name": "Owner"
+        },
+        {
+            "classname": "Booking",
+            "code": "class Booking(Base):\n    \"\"\"description: Table to handle dog daycare bookings\"\"\"\n    __tablename__ = 'booking'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dog_id = Column(Integer, ForeignKey('dog.id'))\n    drop_off_date = Column(DateTime)\n    pick_up_date = Column(DateTime)\n    total_days = Column(Integer)  # derived attribute",
+            "sqlite_create": "CREATE TABLE booking (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dog_id INTEGER REFERENCES dog(id),\n    drop_off_date DATETIME,\n    pick_up_date DATETIME,\n    total_days INTEGER\n);",
+            "description": "Table to handle dog daycare bookings.",
+            "name": "Booking"
+        },
+        {
+            "classname": "Caregiver",
+            "code": "class Caregiver(Base):\n    \"\"\"description: Table of caregivers working at the daycare center\"\"\"\n    __tablename__ = 'caregiver'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    first_name = Column(String)\n    last_name = Column(String)\n    phone_number = Column(String)\n    hire_date = Column(Date)",
+            "sqlite_create": "CREATE TABLE caregiver (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    first_name TEXT,\n    last_name TEXT,\n    phone_number TEXT,\n    hire_date DATE\n);",
+            "description": "Table of caregivers working at the daycare center.",
+            "name": "Caregiver"
+        },
+        {
+            "classname": "CareSession",
+            "code": "class CareSession(Base):\n    \"\"\"description: Table recording caresession provided to dogs.\"\"\"\n    __tablename__ = 'caresession'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dog_id = Column(Integer, ForeignKey('dog.id'))\n    caregiver_id = Column(Integer, ForeignKey('caregiver.id'))\n    session_date = Column(Date)\n    notes = Column(String)",
+            "sqlite_create": "CREATE TABLE caresession (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dog_id INTEGER REFERENCES dog(id),\n    caregiver_id INTEGER REFERENCES caregiver(id),\n    session_date DATE,\n    notes TEXT\n);",
+            "description": "Table recording care sessions provided to dogs.",
+            "name": "CareSession"
+        },
+        {
+            "classname": "SpecialCareNeeds",
+            "code": "class SpecialCareNeeds(Base):\n    \"\"\"description: Special care needs of dogs\"\"\"\n    __tablename__ = 'special_careneeds'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dog_id = Column(Integer, ForeignKey('dog.id'))\n    condition_name = Column(String)\n    care_description = Column(String)",
+            "sqlite_create": "CREATE TABLE special_careneeds (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dog_id INTEGER REFERENCES dog(id),\n    condition_name TEXT,\n    care_description TEXT\n);",
+            "description": "Special care needs of dogs.",
+            "name": "SpecialCareNeeds"
+        },
+        {
+            "classname": "DietaryRestrictions",
+            "code": "class DietaryRestrictions(Base):\n    \"\"\"description: Dietary restrictions for dogs\"\"\"\n    __tablename__ = 'dietary_restrictions'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dog_id = Column(Integer, ForeignKey('dog.id'))\n    restriction_details = Column(String)",
+            "sqlite_create": "CREATE TABLE dietary_restrictions (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dog_id INTEGER REFERENCES dog(id),\n    restriction_details TEXT\n);",
+            "description": "Dietary restrictions for dogs.",
+            "name": "DietaryRestrictions"
+        },
+        {
+            "classname": "ActivitySchedule",
+            "code": "class ActivitySchedule(Base):\n    \"\"\"description: Table to schedule activities for dogs.\"\"\"\n    __tablename__ = 'activity_schedule'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dog_id = Column(Integer, ForeignKey('dog.id'))\n    activity_date = Column(Date)\n    activity_name = Column(String)\n    activity_duration = Column(Integer)",
+            "sqlite_create": "CREATE TABLE activity_schedule (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dog_id INTEGER REFERENCES dog(id),\n    activity_date DATE,\n    activity_name TEXT,\n    activity_duration INTEGER\n);",
+            "description": "Table to schedule activities for dogs.",
+            "name": "ActivitySchedule"
+        },
+        {
+            "classname": "Invoice",
+            "code": "class Invoice(Base):\n    \"\"\"description: Invoices for bookings, sessions, and services.\"\"\"\n    __tablename__ = 'invoice'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    booking_id = Column(Integer, ForeignKey('booking.id'))\n    date_issued = Column(Date)\n    total_amount = Column(Integer)  # derived attribute\n    status = Column(String, default=\"Pending\")",
+            "sqlite_create": "CREATE TABLE invoice (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    booking_id INTEGER REFERENCES booking(id),\n    date_issued DATE,\n    total_amount INTEGER,\n    status TEXT DEFAULT 'Pending'\n);",
+            "description": "Invoices for bookings, sessions, and services.",
+            "name": "Invoice"
+        },
+        {
+            "classname": "Payment",
+            "code": "class Payment(Base):\n    \"\"\"description: Payment records for invoices.\"\"\"\n    __tablename__ = 'payment'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    invoice_id = Column(Integer, ForeignKey('invoice.id'))\n    payment_date = Column(Date)\n    amount = Column(Integer)",
+            "sqlite_create": "CREATE TABLE payment (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    invoice_id INTEGER REFERENCES invoice(id),\n    payment_date DATE,\n    amount INTEGER\n);",
+            "description": "Payment records for invoices.",
+            "name": "Payment"
+        },
+        {
+            "classname": "FacilityService",
+            "code": "class FacilityService(Base):\n    \"\"\"description: Services provided by the daycare facility.\"\"\"\n    __tablename__ = 'facility_service'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    service_name = Column(String)\n    service_cost = Column(Integer)",
+            "sqlite_create": "CREATE TABLE facility_service (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    service_name TEXT,\n    service_cost INTEGER\n);",
+            "description": "Services provided by the daycare facility.",
+            "name": "FacilityService"
+        },
+        {
+            "classname": "BookingService",
+            "code": "class BookingService(Base):\n    \"\"\"description: Services assigned to a booking.\"\"\"\n    __tablename__ = 'booking_service'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    booking_id = Column(Integer, ForeignKey('booking.id'))\n    service_id = Column(Integer, ForeignKey('facility_service.id'))",
+            "sqlite_create": "CREATE TABLE booking_service (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    booking_id INTEGER REFERENCES booking(id),\n    service_id INTEGER REFERENCES facility_service(id)\n);",
+            "description": "Services assigned to a booking.",
+            "name": "BookingService"
+        }
+    ],
+    "rules": [],
+    "test_data": "Test data consists of initializing objects with derived attributes accounted for, representing sample data for the tables.",
+    "test_data_rows": [
+        {
+            "test_data_row_variable": "dog1",
+            "code": "dog1 = Dog(name=\"Bella\", breed=\"Welsh Corgi\", birthdate=date(2018, 6, 1), owner_id=1)"
+        },
+        {
+            "test_data_row_variable": "dog2",
+            "code": "dog2 = Dog(name=\"Charlie\", breed=\"Welsh Corgi\", birthdate=date(2019, 5, 14), owner_id=2)"
+        },
+        {
+            "test_data_row_variable": "dog3",
+            "code": "dog3 = Dog(name=\"Max\", breed=\"Welsh Corgi\", birthdate=date(2020, 7, 10), owner_id=3)"
+        },
+        {
+            "test_data_row_variable": "dog4",
+            "code": "dog4 = Dog(name=\"Lucy\", breed=\"Welsh Corgi\", birthdate=date(2021, 9, 25), owner_id=4)"
+        },
+        {
+            "test_data_row_variable": "owner1",
+            "code": "owner1 = Owner(first_name=\"John\", last_name=\"Doe\", phone_number=\"123-456-7890\", email=\"john.doe@example.com\")"
+        },
+        {
+            "test_data_row_variable": "owner2",
+            "code": "owner2 = Owner(first_name=\"Jane\", last_name=\"Smith\", phone_number=\"987-654-3210\", email=\"jane.smith@example.com\")"
+        },
+        {
+            "test_data_row_variable": "owner3",
+            "code": "owner3 = Owner(first_name=\"Alice\", last_name=\"Brown\", phone_number=\"555-123-4567\", email=\"alice.brown@example.com\")"
+        },
+        {
+            "test_data_row_variable": "owner4",
+            "code": "owner4 = Owner(first_name=\"Bob\", last_name=\"Johnson\", phone_number=\"444-888-6666\", email=\"bob.johnson@example.com\")"
+        }
+    ],
+    "test_data_sqlite": "INSERT INTO dog (name, breed, birthdate, owner_id) VALUES \n(\"Bella\", \"Welsh Corgi\", '2018-06-01', 1),\n(\"Charlie\", \"Welsh Corgi\", '2019-05-14', 2),\n(\"Max\", \"Welsh Corgi\", '2020-07-10', 3),\n(\"Lucy\", \"Welsh Corgi\", '2021-09-25', 4);\n\nINSERT INTO owner (first_name, last_name, phone_number, email) VALUES\n(\"John\", \"Doe\", \"123-456-7890\", \"john.doe@example.com\"),\n(\"Jane\", \"Smith\", \"987-654-3210\", \"jane.smith@example.com\"),\n(\"Alice\", \"Brown\", \"555-123-4567\", \"alice.brown@example.com\"),\n(\"Bob\", \"Johnson\", \"444-888-6666\", \"bob.johnson@example.com\");",
+    "name": "CorgiCareDatabase"
+}

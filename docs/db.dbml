@@ -1,0 +1,123 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+ActivitySchedule: Table to schedule activities for dogs.
+Dog: Table of dogs admitted to the daycare center
+Booking: Table to handle dog daycare bookings
+BookingService: Services assigned to a booking.
+FacilityService: Services provided by the daycare facility.
+Caregiver: Table of caregivers working at the daycare center
+Caresession: Table recording caresession provided to dogs.
+DietaryRestriction: Dietary restrictions for dogs
+Owner: Table of dog owners
+Invoice: Invoices for bookings, sessions, and services.
+Payment: Payment records for invoices.
+SpecialCareneed: Special care needs of dogs
+'''
+}
+
+Table ActivitySchedule {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    activity_date DATE 
+    activity_name VARCHAR 
+    activity_duration INTEGER 
+    }
+
+Table Dog {
+    id INTEGER [primary key]
+    name VARCHAR 
+    breed VARCHAR 
+    birthdate DATE 
+    owner_id INTEGER 
+    }
+
+Table Booking {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    drop_off_date DATETIME 
+    pick_up_date DATETIME 
+    total_days INTEGER 
+    }
+
+Table BookingService {
+    id INTEGER [primary key]
+    booking_id INTEGER 
+    service_id INTEGER 
+    }
+
+Table FacilityService {
+    id INTEGER [primary key]
+    service_name VARCHAR 
+    service_cost INTEGER 
+    }
+
+Table Caregiver {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    phone_number VARCHAR 
+    hire_date DATE 
+    }
+
+Table Caresession {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    caregiver_id INTEGER 
+    session_date DATE 
+    notes VARCHAR 
+    }
+
+Table DietaryRestriction {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    restriction_details VARCHAR 
+    }
+
+Table Owner {
+    id INTEGER [primary key]
+    first_name VARCHAR 
+    last_name VARCHAR 
+    phone_number VARCHAR 
+    email VARCHAR 
+    }
+
+Table Invoice {
+    id INTEGER [primary key]
+    booking_id INTEGER 
+    date_issued DATE 
+    total_amount INTEGER 
+    status VARCHAR 
+    }
+
+Table Payment {
+    id INTEGER [primary key]
+    invoice_id INTEGER 
+    payment_date DATE 
+    amount INTEGER 
+    }
+
+Table SpecialCareneed {
+    id INTEGER [primary key]
+    dog_id INTEGER 
+    condition_name VARCHAR 
+    care_description VARCHAR 
+    }
+
+
+
+// Relationships
+    Ref: ActivitySchedule.(dog_id) < Dog.(id)
+    Ref: Dog.(owner_id) < Owner.(id)
+    Ref: Booking.(dog_id) < Dog.(id)
+    Ref: BookingService.(booking_id) < Booking.(id)
+    Ref: BookingService.(service_id) < FacilityService.(id)
+    Ref: Caresession.(caregiver_id) < Caregiver.(id)
+    Ref: Caresession.(dog_id) < Dog.(id)
+    Ref: DietaryRestriction.(dog_id) < Dog.(id)
+    Ref: Invoice.(booking_id) < Booking.(id)
+    Ref: Payment.(invoice_id) < Invoice.(id)
+    Ref: SpecialCareneed.(dog_id) < Dog.(id)
